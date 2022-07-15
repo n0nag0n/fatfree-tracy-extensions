@@ -34,7 +34,10 @@ $extension_options = [
 	// database connection.
 	// Ex: $f3->DB, you would put 'DB' (default)
 	//     $f3->database, you would put 'database'
-	'database_variable_name' => 'DB'
+	'database_variable_name' => 'DB',
+	
+	// You can also just pass your database object
+	'database_object' => $my_db_connection
 ];
 new Tracy_Extension_Loader($f3, $extension_options);
 
