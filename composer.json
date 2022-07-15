@@ -1,0 +1,21 @@
+{
+    "name": "n0nag0n/fatfree-tracy-extensions",
+    "description": "A few Fat-Free specific extensions for Tracy Debugger to help debug your code quickly.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "n0nag0n",
+            "email": "n0nag0n@sky-9.com"
+        }
+	],
+	"autoload": {
+		"psr-4": {
+			"n0nag0n\\": "src/"
+		}
+	},
+    "require": {
+        "tracy/tracy": "^2.9",
+        "bcosca/fatfree-core": "^3.7"
+    }
+}
