@@ -8,16 +8,17 @@ use DB;
 
 class Database_Extension extends Extension_Base implements \Tracy\IBarPanel {
 
-	/** @var string */
-	protected $database_variable_name = 'DB';
+	/** @var \DB\SQL */
+	protected database_connection = null;
 
 	/**
 	 * Construct
 	 *
 	 * @param string $database_variable_name The Hive variable name for the database method
+	 * @param \DB\SQL $database_object The database object you want to inject
 	 */
-	public function __construct(string $database_variable_name = 'DB') {
-		$this->database_variable_name = $database_variable_name;
+	public function __construct(Base $f3, string $database_variable_name = 'DB', \DB\SQL $database_object = null) {
+		$this->database_connection = $database_object !== null ? $database_object : $f3->get($database_variable_name);
 	}
 
 	/**
@@ -42,7 +43,7 @@ class Database_Extension extends Extension_Base implements \Tracy\IBarPanel {
 				</thead>
 				<tbody>
 EOT;
-		foreach(explode("\n", Base::instance()->{$this->database_variable_name}->log()) as $query_result) {
+		foreach(explode("\n", $this->database_connection->log()) as $query_result) {
 			$query_parts = explode(' ', $query_result, 2);
 			$time 		 = str_replace([ '(', ')' ], '', $query_parts[0]);
 			$sql 		 = $this->handleLongStrings(($query_parts[1] ?? ''));
@@ -72,7 +73,7 @@ EOT;
 		$total_time       = 0;
 		$long_query_count = 0;
 		$query_count      = 0;
-		foreach(explode("\n", Base::instance()->{$this->database_variable_name}->log()) as $query_result) {
+		foreach(explode("\n", $this->database_connection->log()) as $query_result) {
 			$query_parts = explode(' ', $query_result, 2);
 			$time 		 = str_replace([ '(', ')', 'ms' ], '', $query_parts[0]);
 			$total_time += (float) $time;
