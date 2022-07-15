@@ -6,7 +6,7 @@ This is a set of extensions to make working with Fat-Free a little richer.
 - F3 - Analyze all hive variables.
 - Database - Analyze all queries that have run on the page
 - Request - Analyze all `$_SERVER` variables and examine all global payloads (`$_GET`, `$_POST`, `$_FILES`)
-- Session - Analyze all `$_SESSION_` variables
+- Session - Analyze all `$_SESSION` variables
 
 Installation
 -------
