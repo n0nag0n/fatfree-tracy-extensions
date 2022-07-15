@@ -45,10 +45,10 @@ EOT;
 		foreach(explode("\n", Base::instance()->{$this->database_variable_name}->log()) as $query_result) {
 			$query_parts = explode(' ', $query_result, 2);
 			$time 		 = str_replace([ '(', ')' ], '', $query_parts[0]);
-			$sql 		 = $this->handleLongStrings($query_parts[1]);
+			$sql 		 = $this->handleLongStrings(($query_parts[1] ?? ''));
 			$html       .= <<<EOT
 					<tr>
-						<td>{$time}ms</td>
+						<td>{$time}</td>
 						<td>{$sql}</td>
 					</tr>
 EOT;
@@ -75,8 +75,8 @@ EOT;
 		foreach(explode("\n", Base::instance()->{$this->database_variable_name}->log()) as $query_result) {
 			$query_parts = explode(' ', $query_result, 2);
 			$time 		 = str_replace([ '(', ')', 'ms' ], '', $query_parts[0]);
-			$total_time += $time;
-			if($time > 0.5) {
+			$total_time += (float) $time;
+			if($time > 500) {
 				++$long_query_count;
 			}
 			++$query_count;
