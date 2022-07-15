@@ -25,7 +25,11 @@ class Tracy_Extension_Loader {
 
 	protected function loadExtensions(Base $f3, array $extension_options = []): void {
 		Debugger::getBar()->addPanel(new F3_Extension($f3));
-		Debugger::getBar()->addPanel(new Database_Extension(($extension_options['database_variable_name'] ?? 'DB')));
+		$database_variable_name = $extension_options['database_variable_name'] ?? 'DB';
+		$database_object = $extension_options['database_object'] ?? null;
+		if($f3->get($database_variable_name) || ($database_object !== null && $database_object instanceof \DB\SQL)) {
+			Debugger::getBar()->addPanel(new Database_Extension($f3, $database_variable_name, $database_object));
+		}
 		Debugger::getBar()->addPanel(new Request_Extension);
 		Debugger::getBar()->addPanel(new Session_Extension);
 	}
