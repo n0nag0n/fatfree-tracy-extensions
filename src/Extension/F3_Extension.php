@@ -30,7 +30,7 @@ class F3_Extension extends Extension_Base implements \Tracy\IBarPanel {
 		}
 		$html = <<<EOT
 			<h1>F3 Data</h1> 
-			<div class="tracy-inner" style="max-height: 400px;">
+			<div class="tracy-inner" style="max-height: 400px; overflow: auto;">
 				<table>
 					<tbody>
 						{$table_tr_html}
