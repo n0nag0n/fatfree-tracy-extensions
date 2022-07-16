@@ -9,7 +9,7 @@ use DB;
 class Database_Extension extends Extension_Base implements \Tracy\IBarPanel {
 
 	/** @var \DB\SQL */
-	protected database_connection = null;
+	protected $database_connection = null;
 
 	/**
 	 * Construct
