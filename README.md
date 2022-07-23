@@ -10,7 +10,7 @@ This is a set of extensions to make working with Fat-Free a little richer.
 
 Installation
 -------
-Run `composer require n0nag0n/fatfree-tracy-devtools --dev` and you're on your way!
+Run `composer require n0nag0n/fatfree-tracy-extensions --dev` and you're on your way!
 
 Configuration
 -------
