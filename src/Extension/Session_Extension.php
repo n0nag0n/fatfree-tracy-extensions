@@ -12,10 +12,12 @@ class Session_Extension extends Extension_Base implements \Tracy\IBarPanel {
 	 */
 	public function getPanel() {
 		$session_data  = $_SESSION;
-		ksort($session_data, SORT_NATURAL);
 		$table_tr_html = '';
-		foreach($session_data as $key => $value) {
-			$table_tr_html .= '<tr><td>'.$key.'</td><td>'.$this->handleLongStrings($value).'</td></tr>'."\n";
+		if(!empty($session_data)){
+			ksort($session_data, SORT_NATURAL);
+			foreach($session_data as $key => $value) {
+				$table_tr_html .= '<tr><td>'.$key.'</td><td>'.$this->handleLongStrings($value).'</td></tr>'."\n";
+			}
 		}
 		$html = <<<EOT
 			<h1>SESSION Data</h1> 

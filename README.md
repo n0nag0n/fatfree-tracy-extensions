@@ -20,7 +20,7 @@ There is very little configuration you need to do to get this started. You will 
 <?php
 
 use Tracy\Debugger;
-use n0nag0n\Tracy_Extension_Loader
+use n0nag0n\Tracy_Extension_Loader;
 
 // bootstrap code
 $f3 = Base::instance();
