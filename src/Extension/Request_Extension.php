@@ -27,6 +27,7 @@ class Request_Extension extends Extension_Base implements \Tracy\IBarPanel {
 		$files_html = $this->handleLongStrings($_FILES);
 		$request_data['REQUEST_URI'] = $this->handleLongStrings($request_data['REQUEST_URI']);
 		$request_data['HTTP_USER_AGENT'] = $this->handleLongStrings($request_data['HTTP_USER_AGENT']);
+		$request_data['USER'] = !empty($request_data['USER']) ? $request_data['USER'] : '';
 		$view_files = $this->handleLongStrings(array_filter(get_included_files(), function($value) use ($f3) { return strpos($value, $f3->UI) !== false; }));
 		$html = <<<EOT
 			<h1>Request</h1> 

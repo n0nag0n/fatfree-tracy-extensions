@@ -10,7 +10,7 @@ This is a set of extensions to make working with Fat-Free a little richer.
 
 Installation
 -------
-Run `composer require n0nag0n/fatfree-tracy-devtools --dev` and you're on your way!
+Run `composer require n0nag0n/fatfree-tracy-extensions --dev` and you're on your way!
 
 Configuration
 -------
@@ -20,7 +20,7 @@ There is very little configuration you need to do to get this started. You will 
 <?php
 
 use Tracy\Debugger;
-use n0nag0n\Tracy_Extension_Loader
+use n0nag0n\Tracy_Extension_Loader;
 
 // bootstrap code
 $f3 = Base::instance();
