@@ -5,7 +5,7 @@ namespace n0nag0n\Extension;
 
 use Base;
 
-class F3_Extension extends Extension_Base implements \Tracy\IBarPanel {
+class F3_Panel_Extension extends Extension_Base implements \Tracy\IBarPanel {
 
 	/**
 	 * Construct

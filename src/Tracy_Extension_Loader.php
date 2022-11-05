@@ -6,7 +6,7 @@ namespace n0nag0n;
 use Base;
 use Exception;
 use n0nag0n\Extension\Database_Extension;
-use n0nag0n\Extension\F3_Extension;
+use n0nag0n\Extension\F3_Panel_Extension;
 use n0nag0n\Extension\Request_Extension;
 use n0nag0n\Extension\Session_Extension;
 use Throwable;
@@ -25,7 +25,7 @@ class Tracy_Extension_Loader {
 	}
 
 	protected function loadExtensions(Base $f3, array $extension_options = []): void {
-		Debugger::getBar()->addPanel(new F3_Extension($f3));
+		Debugger::getBar()->addPanel(new F3_Panel_Extension($f3));
 		$database_variable_name = $extension_options['database_variable_name'] ?? 'DB';
 		$database_object = $extension_options['database_object'] ?? null;
 		if(($database_variable_name && $f3->exists($database_variable_name)) || ($database_object !== null && $database_object instanceof \DB\SQL)) {
@@ -35,12 +35,15 @@ class Tracy_Extension_Loader {
 		Debugger::getBar()->addPanel(new Request_Extension);
 
 		Debugger::getBlueScreen()->addPanel(function(?Throwable $e) use ($f3) {
-			$F3_Extension = new F3_Extension($f3);
-			$F3_Extension->setValueWidth(800);
+			$F3_Panel_Extension = new F3_Panel_Extension($f3);
+			$F3_Panel_Extension->setValueWidth(800);
+			if($e instanceof Throwable && $e->getMessage()) {
+				return [];
+			}
 			return [
 				'tab' => 'F3 Hive',
-				'panel' => $F3_Extension->getPanel(),
-				'bottom' => true
+				'panel' => $F3_Panel_Extension->getPanel(),
+				'bottom' => true,
 			];
 		});
 	}
