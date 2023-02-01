@@ -43,16 +43,18 @@ class Database_Extension extends Extension_Base implements \Tracy\IBarPanel {
 				</thead>
 				<tbody>
 EOT;
-		foreach(explode("\n", $this->database_connection->log()) as $query_result) {
-			$query_parts = explode(' ', $query_result, 2);
-			$time 		 = str_replace([ '(', ')' ], '', $query_parts[0]);
-			$sql 		 = $this->handleLongStrings(($query_parts[1] ?? ''));
-			$html       .= <<<EOT
-					<tr>
-						<td>{$time}</td>
-						<td>{$sql}</td>
-					</tr>
+		if(!empty($this->database_connection->log())) {
+			foreach(explode("\n", $this->database_connection->log()) as $query_result) {
+				$query_parts = explode(' ', $query_result, 2);
+				$time 		 = str_replace([ '(', ')' ], '', $query_parts[0]);
+				$sql 		 = $this->handleLongStrings(($query_parts[1] ?? ''));
+				$html       .= <<<EOT
+						<tr>
+							<td>{$time}</td>
+							<td>{$sql}</td>
+						</tr>
 EOT;
+			}
 		}
 		$html .= <<<EOT
 				</tbody>
@@ -73,14 +75,16 @@ EOT;
 		$total_time       = 0;
 		$long_query_count = 0;
 		$query_count      = 0;
-		foreach(explode("\n", $this->database_connection->log()) as $query_result) {
-			$query_parts = explode(' ', $query_result, 2);
-			$time 		 = str_replace([ '(', ')', 'ms' ], '', $query_parts[0]);
-			$total_time += (float) $time;
-			if($time > 500) {
-				++$long_query_count;
+		if(!empty($this->database_connection->log())) {
+				foreach(explode("\n", $this->database_connection->log()) as $query_result) {
+				$query_parts = explode(' ', $query_result, 2);
+				$time 		 = str_replace([ '(', ')', 'ms' ], '', $query_parts[0]);
+				$total_time += (float) $time;
+				if($time > 500) {
+					++$long_query_count;
+				}
+				++$query_count;
 			}
-			++$query_count;
 		}
 		$long_query_html = '';
 		if($long_query_count > 0) {

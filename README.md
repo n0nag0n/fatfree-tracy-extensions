@@ -28,18 +28,26 @@ $f3 = Base::instance();
 Debugger::enable();
 // You may need to specify your environment with Debugger::enable(Debugger::DEVELOPMENT)
 
-// not required
+// Database query profiler (not required)
+// Create DB connection
+// Variant 1
+$f3->set('DB', new DB\SQL('mysql:host=localhost;port=3306;dbname=database', 'username', 'password'));
+// OR variant 2
+$f3->set('AnyVariableName', new DB\SQL('mysql:host=localhost;port=3306;dbname=database', 'username', 'password'));
+// OR variant 3
+$my_db_connection = new DB\SQL('mysql:host=localhost;port=3306;dbname=database', 'username', 'password');
+
 $extension_options = [
-	// this is the name of the hive variable that's holding your
-	// database connection.
-	// Ex: $f3->DB, you would put 'DB' (default)
-	//     $f3->database, you would put 'database'
-	'database_variable_name' => 'DB',
-	
-	// You can also just pass your database object
+	// Variant 2: Specify the name of the variable F3 with database connection
+	'database_variable_name' => 'AnyVariableName', //It will mean: $f3->get('AnyVariableName')
+	// OR variant 3: pass the database connection object
 	'database_object' => $my_db_connection
 ];
 new Tracy_Extension_Loader($f3, $extension_options);
+
+// If you have no database connection or your connection is written in $f3->set('DB') (variant 1),
+// you don't need to create $extension_options because the name 'DB' is used by default, simple:
+// new Tracy_Extension_Loader($f3);
 
 // more code
 
