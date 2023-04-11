@@ -7,6 +7,7 @@ use Base;
 
 class F3_Panel_Extension extends Extension_Base implements \Tracy\IBarPanel {
 
+	protected $f3;
 	/**
 	 * Construct
 	 *
