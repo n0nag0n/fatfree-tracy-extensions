@@ -24,6 +24,7 @@ class F3_Panel_Extension extends Extension_Base implements \Tracy\IBarPanel {
 	 */
 	public function getPanel() {
 		$f3_data = (array) $this->f3->hive();
+		$f3_data['CURRENT_ROUTE_HANDLER'] = $f3_data['ROUTES'][$this->f3->get('PATTERN')][0][$f3_data['VERB']][0];
 		ksort($f3_data, SORT_NATURAL);
 		$table_tr_html = '';
 		foreach($f3_data as $key => $value) {
