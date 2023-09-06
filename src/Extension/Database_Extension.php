@@ -44,13 +44,27 @@ class Database_Extension extends Extension_Base implements \Tracy\IBarPanel {
 				<tbody>
 EOT;
 		if(!empty($this->database_connection->log())) {
-			foreach(explode("\n", $this->database_connection->log()) as $query_result) {
-				$query_parts = explode(' ', $query_result, 2);
-				$time 		 = str_replace([ '(', ')' ], '', $query_parts[0]);
-				$sql 		 = $this->handleLongStrings(($query_parts[1] ?? ''));
+			$split_values = preg_split("/\(([0-9\.]+)ms\)\s/", $this->database_connection->log(), -1, PREG_SPLIT_DELIM_CAPTURE);
+			$query_results = [];
+			$last_query_time = 0.0;
+			foreach($split_values as $value) {
+				if(empty($value)) {
+					continue;
+				}
+				if(is_numeric($value) === true) {
+					$last_query_time = (float) $value;
+				} else {
+					$query_results[] = [
+						'time' => $last_query_time,
+						'sql'  => $value
+					];
+				}
+			}
+			foreach($query_results as $query_result) {
+				$sql 		 = $this->handleLongStrings(($query_result['sql'] ?? ''));
 				$html       .= <<<EOT
 						<tr>
-							<td>{$time}</td>
+							<td>{$query_result['time']}ms</td>
 							<td>{$sql}</td>
 						</tr>
 EOT;
@@ -76,11 +90,25 @@ EOT;
 		$long_query_count = 0;
 		$query_count      = 0;
 		if(!empty($this->database_connection->log())) {
-				foreach(explode("\n", $this->database_connection->log()) as $query_result) {
-				$query_parts = explode(' ', $query_result, 2);
-				$time 		 = str_replace([ '(', ')', 'ms' ], '', $query_parts[0]);
-				$total_time += (float) $time;
-				if($time > 500) {
+			$split_values = preg_split("/\(([0-9\.]+)ms\)\s/", $this->database_connection->log(), -1, PREG_SPLIT_DELIM_CAPTURE);
+			$query_results = [];
+			$last_query_time = 0.0;
+			foreach($split_values as $value) {
+				if(empty($value)) {
+					continue;
+				}
+				if(is_numeric($value) === true) {
+					$last_query_time = (float) $value;
+				} else {
+					$query_results[] = [
+						'time' => $last_query_time,
+						'sql'  => $value
+					];
+				}
+			}
+			foreach($query_results as $query_result) {
+				$total_time += $query_result['time'];
+				if($query_result['time'] > 500) {
 					++$long_query_count;
 				}
 				++$query_count;
