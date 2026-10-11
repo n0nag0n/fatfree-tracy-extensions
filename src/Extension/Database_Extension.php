@@ -17,7 +17,7 @@ class Database_Extension extends Extension_Base implements \Tracy\IBarPanel {
 	 * @param string $database_variable_name The Hive variable name for the database method
 	 * @param \DB\SQL $database_object The database object you want to inject
 	 */
-	public function __construct(Base $f3, string $database_variable_name = 'DB', \DB\SQL $database_object = null) {
+	public function __construct(Base $f3, string $database_variable_name = 'DB', ?\DB\SQL $database_object = null) {
 		$this->database_connection = $database_object !== null ? $database_object : $f3->get($database_variable_name);
 	}
 
